@@ -318,3 +318,4 @@ async function ej40() {
     let pi=3, d=2, s=1; for(let i=0;i<1000;i++){ pi+=s*(4/(d*(d+1)*(d+2))); d+=2; s*=-1; }
     botRespuesta(`Pi Nilakantha: <b>${pi.toFixed(6)}</b>.`);
 }
+
