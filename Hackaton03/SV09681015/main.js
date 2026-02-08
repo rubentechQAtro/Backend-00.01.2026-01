@@ -8,6 +8,23 @@ function showTab(index) {
     tabs[index].classList.add("active");
     contents[index].classList.add("active");
 }
+function limpiarTodo() {
+    // Limpiar todos los inputs
+    const inputs = document.querySelectorAll('input[type="text"], input[type="number"]');
+    inputs.forEach(input => input.value = '');
+    
+    // Limpiar todos los divs de resultado
+    const resultados = document.querySelectorAll('.resultado, [id^="r"]');
+    resultados.forEach(resultado => {
+        if (resultado.tagName === 'TABLE') {
+            resultado.innerHTML = ''; // Para tablas
+        } else {
+            resultado.textContent = ''; // Para divs normales
+        }
+    });
+    
+    console.log('Campos limpiados');
+}
 
 //-- EJERCICIO 1 --//
 function ej1() {
@@ -215,7 +232,7 @@ function ej14() {
     if (d === 2) {
         r14.textContent = n + " Es primo";
     } else {
-        r14.textContent = n +  " No es primo";
+        r14.textContent = n + " No es primo";
     }
 }
 //-- EJERCICIO 15 --//
@@ -260,6 +277,25 @@ function ej17() {
     let mm = Number(m.value);
     let ss = Number(s.value);
 
+    // Validar que los valores sean números válidos
+    if (isNaN(hh) || isNaN(mm) || isNaN(ss)) {
+        r17.textContent = "Error: Ingrese valores numéricos válidos";
+        return;
+    }
+
+    if (hh < 0 || hh > 23) {
+        r17.textContent = "Error: Las horas deben estar entre 0 y 23";
+        return;
+    }
+    if (mm < 0 || mm > 59) {
+        r17.textContent = "Error: Los minutos deben estar entre 0 y 59";
+        return;
+    }
+    if (ss < 0 || ss > 59) {
+        r17.textContent = "Error: Los segundos deben estar entre 0 y 59";
+        return;
+    }
+
     ss = ss + 1;
     if (ss === 60) {
         ss = 0;
@@ -272,6 +308,7 @@ function ej17() {
     if (hh === 24) {
         hh = 0;
     }
+
     if (hh < 10) {
         hh = "0" + hh;
     }
@@ -281,6 +318,7 @@ function ej17() {
     if (ss < 10) {
         ss = "0" + ss;
     }
+
     r17.textContent = hh + ":" + mm + ":" + ss;
 }
 
@@ -493,34 +531,195 @@ function ej31() {
 
 //-- EJERCICIO 32 --//
 const datos = [
-    { prov: "Piura", ciudad: "Ciudad de Piura", poblacion: 200000 },
     { prov: "Piura", ciudad: "Catacaos", poblacion: 40000 },
     { prov: "Piura", ciudad: "Tambogrande", poblacion: 25000 },
+    { prov: "Piura", ciudad: "La Union", poblacion: 19000 },
+    { prov: "Piura", ciudad: "La Arena", poblacion: 25000 },
 
-    { prov: "Lambayeque", ciudad: "Lambayeque", poblacion: 60870 },
+    { prov: "Lambayeque", ciudad: "Lambayeque (Capital)", poblacion: 60870 },
     { prov: "Lambayeque", ciudad: "Motupe", poblacion: 16738 },
     { prov: "Lambayeque", ciudad: "Olmos", poblacion: 15205 },
+    { prov: "Lambayeque", ciudad: "San José", poblacion: 10686 },
+    { prov: "Lambayeque", ciudad: "Túcume", poblacion: 9764 },
+    { prov: "Lambayeque", ciudad: "Íllimo", poblacion: 5175 },
+    { prov: "Lambayeque", ciudad: "Pacora", poblacion: 3940 },
+    { prov: "Lambayeque", ciudad: "Salas", poblacion: 3112 },
 
     { prov: "Arequipa", ciudad: "Cerro Colorado", poblacion: 229142 },
+    { prov: "Arequipa", ciudad: "Arequipa (Cercado)", poblacion: 54400 },
     { prov: "Arequipa", ciudad: "Cayma", poblacion: 103140 },
     { prov: "Arequipa", ciudad: "Paucarpata", poblacion: 125255 },
+    { prov: "Arequipa", ciudad: "Alto Selva Alegre", poblacion: 88537 },
+    { prov: "Arequipa", ciudad: "José Luis Bustamante y Rivero", poblacion: 76270 },
     { prov: "Arequipa", ciudad: "Miraflores", poblacion: 52114 },
-    { prov: "Arequipa", ciudad: "Socabaya", poblacion: 60553 }
+    { prov: "Arequipa", ciudad: "Mariano Melgar", poblacion: 59918 },
+    { prov: "Arequipa", ciudad: "Socabaya", poblacion: 60553 },
+
+    { prov: "Tacna", ciudad: "Tacna", poblacion: 100000 },
+    { prov: "Tacna", ciudad: "Alto del Alianza", poblacion: 35000 },
+    { prov: "Tacna", ciudad: "Ciudad Nueva", poblacion: 32000 },
+    { prov: "Tacna", ciudad: "Pocollay", poblacion: 20000 },
+    { prov: "Tacna", ciudad: "Gregorio Albarracin", poblacion: 130000 },
+
+    { prov: "Nasca", ciudad: "Nasca", poblacion: 82000 },
+    { prov: "Nasca", ciudad: "Vista Alegre", poblacion: 49000 },
+    { prov: "Nasca", ciudad: "Marcona", poblacion: 20000 },
+
+    { prov: "Lima", ciudad: "San Juan de Lurigancho", poblacion: 1282635 },
+    { prov: "Lima", ciudad: "San Martín de Porres", poblacion: 802774 },
+    { prov: "Lima", ciudad: "Ate", poblacion: 743517 },
+    { prov: "Lima", ciudad: "Comas", poblacion: 600307 },
+    { prov: "Lima", ciudad: "Villa María del Triunfo", poblacion: 462141 },
+    { prov: "Lima", ciudad: "Carabayllo", poblacion: 458341 },
+    { prov: "Lima", ciudad: "Villa El Salvador", poblacion: 442292 },
+    { prov: "Lima", ciudad: "Santiago de Surco", poblacion: 437028 },
+    { prov: "Lima", ciudad: "Puente Piedra", poblacion: 435888 },
+    { prov: "Lima", ciudad: "San Juan de Miraflores", poblacion: 433565 }
 ];
+
+// Array para almacenar las ciudades agregadas a la tabla
+let ciudadesSeleccionadas = [];
+
+window.onload = function () {
+    let selProv = document.getElementById("provincia");
+
+    for (let i = 0; i < datos.length; i++) {
+        let existe = false;
+
+        for (let j = 0; j < selProv.options.length; j++) {
+            if (selProv.options[j].value === datos[i].prov) {
+                existe = true;
+            }
+        }
+
+        if (!existe) {
+            let option = document.createElement("option");
+            option.value = datos[i].prov;
+            option.textContent = datos[i].prov;
+            selProv.appendChild(option);
+        }
+    }
+};
+
+function cargarCiudades() {
+    let prov = document.getElementById("provincia").value;
+    let selCiudad = document.getElementById("ciudad");
+    let pob = document.getElementById("poblacion");
+
+    selCiudad.innerHTML = "<option value=''>Seleccione ciudad</option>";
+    pob.value = "";
+
+    for (let i = 0; i < datos.length; i++) {
+        if (datos[i].prov === prov) {
+            let option = document.createElement("option");
+            option.value = datos[i].ciudad;
+            option.textContent = datos[i].ciudad;
+            selCiudad.appendChild(option);
+        }
+    }
+}
+
+function mostrarPoblacion() {
+    let ciudad = document.getElementById("ciudad").value;
+    let pob = document.getElementById("poblacion");
+
+    for (let i = 0; i < datos.length; i++) {
+        if (datos[i].ciudad === ciudad) {
+            pob.value = datos[i].poblacion;
+        }
+    }
+}
+
+// Agregar ciudad a la tabla
+function agregarCiudad() {
+    let prov = document.getElementById("provincia").value;
+    let ciudad = document.getElementById("ciudad").value;
+    let pob = document.getElementById("poblacion").value;
+
+    // Validar que se hayan seleccionado todos los campos
+    if (!prov || !ciudad || !pob) {
+        alert("Por favor, seleccione provincia, ciudad y verifique que tenga población");
+        return;
+    }
+
+    // Validar que no se agreguen más de 11 ciudades
+    if (ciudadesSeleccionadas.length >= 11) {
+        alert("Ya se han agregado 11 ciudades");
+        return;
+    }
+
+    // Verificar que la ciudad no esté duplicada
+    let existe = ciudadesSeleccionadas.find(c =>
+        c.ciudad === ciudad && c.prov === prov
+    );
+
+    if (existe) {
+        alert("Esta ciudad ya fue agregada");
+        return;
+    }
+
+    // Agregar ciudad al array
+    ciudadesSeleccionadas.push({
+        prov: prov,
+        ciudad: ciudad,
+        poblacion: parseInt(pob)
+    });
+
+    // Agregar fila a la tabla
+    let tabla = document.getElementById("tablaCiudades");
+    let fila = tabla.insertRow();
+    fila.insertCell(0).textContent = prov;
+    fila.insertCell(1).textContent = ciudad;
+    fila.insertCell(2).textContent = pob;
+
+    // Deshabilitar botón Agregar si ya hay 11 ciudades
+    if (ciudadesSeleccionadas.length >= 11) {
+        document.getElementById("btnAgregar").disabled = true;
+    }
+
+    // Limpiar selección
+    document.getElementById("provincia").value = "";
+    document.getElementById("ciudad").innerHTML = "<option value=''>Seleccione ciudad</option>";
+    document.getElementById("poblacion").value = "";
+}
+
+// Calcular sobre las ciudades de la tabla
 function ej32() {
+    // Validar que haya al menos una ciudad en la tabla
+    if (ciudadesSeleccionadas.length === 0) {
+        document.getElementById("r32").textContent = "No hay ciudades agregadas";
+        return;
+    }
+
     let maxP = 0;
     let maxC = "";
     let maxProv = "";
+    let maxIndex = -1;
 
-    for (let i = 0; i < datos.length; i++) {
-        if (datos[i].poblacion > maxP) {
-            maxP = datos[i].poblacion;
-            maxC = datos[i].ciudad;
-            maxProv = datos[i].prov;
+    // Buscar en las ciudades seleccionadas
+    for (let i = 0; i < ciudadesSeleccionadas.length; i++) {
+        if (ciudadesSeleccionadas[i].poblacion > maxP) {
+            maxP = ciudadesSeleccionadas[i].poblacion;
+            maxC = ciudadesSeleccionadas[i].ciudad;
+            maxProv = ciudadesSeleccionadas[i].prov;
+            maxIndex = i;
         }
     }
 
-    r32.textContent =
+    // Quitar resaltado previo
+    let tabla = document.getElementById("tablaCiudades");
+    for (let i = 1; i < tabla.rows.length; i++) {
+        tabla.rows[i].style.backgroundColor = "";
+        tabla.rows[i].style.fontWeight = "";
+    }
+
+    // Resaltar la fila ganadora (índice + 1 porque la fila 0 es el encabezado)
+    if (maxIndex >= 0) {
+        tabla.rows[maxIndex + 1].style.backgroundColor = "#90EE90"; // Verde claro
+        tabla.rows[maxIndex + 1].style.fontWeight = "bold";
+    }
+
+    document.getElementById("r32").textContent =
         "Ciudad con mayor población: " +
         maxC + " (" + maxProv + ") - " +
         maxP + " habitantes";
@@ -683,7 +882,7 @@ function ej40() {
         pi += valor;
         // Mostrar los primeros 10 términos
         if (termino <= 10) {
-            texto += `Término ${termino}: ${signo > 0 ? '+' : '-'} 4/(${i}×${i+1}×${i+2}) = ${valor.toFixed(8)}\n`;
+            texto += `Término ${termino}: ${signo > 0 ? '+' : '-'} 4/(${i}×${i + 1}×${i + 2}) = ${valor.toFixed(8)}\n`;
         }
         signo *= -1;
     }

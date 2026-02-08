@@ -29,18 +29,18 @@ h1 {
 }
 
 .tabs {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 25px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 6 botones por fila */
+    gap: 5px;
+    margin-bottom: 5px;
 }
 
 .tab {
-    padding: 10px 20px;
-    background: var(--grey);
+    padding: 5px 15px;
+    background: var(--text-grey);
     border: none;
     border-radius: 20px;
-    color: var(--text-grey);
+    color: var(--grey);
     cursor: pointer;
     transition: 0.3s;
 }
@@ -63,9 +63,18 @@ h1 {
     display: block;
 }
 
+.clear-btn {
+    background: var(--primary-dark) !important; 
+    color: white !important;
+}
+
+.clear-btn:hover {
+    background: #dc2626 !important;
+}
+
 .grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 40% 60%;
     gap: 20px;
     max-width: 1400px;
     margin: auto;
