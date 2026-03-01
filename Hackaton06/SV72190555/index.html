@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hackatón 04 - TechFix</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+
+    <h1 style="text-align:center; margin-top:20px;">DESARROLLO DE LA HACKATÓN 4</h1>
+    <p style="text-align:center; opacity:.7; margin-top:-15px;">
+        Sistema de Reparaciones ES6+ y WebStorage
+    </p>
+
+    <div class="contenedor card gloss">
+        <h1>Reto 1</h1>
+        <h2>Gestión de Reparaciones</h2>
+        <p>Haga clic en el botón para iniciar el simulador del sistema técnico.</p>
+
+        <div class="grid">
+            <button onclick="ejecutarEjercicio(1.1)">Iniciar TechFix</button>
+            <button onclick="limpiarTodo()" class="btn-cerrar">Cerrar Panel</button>
+        </div>
+    </div>
+
+    <div id="zona-ejercicio" class="contenedor card gloss" style="display:none;"></div>
+
+    <script>
+        function ejecutarEjercicio(numero) {
+            // Lógica de mapeo: 1.1 -> ejercicio101
+            const partes = String(numero).split(".");
+            const reto = partes[0];
+            const ej   = (partes[1] || "0").padStart(2, "0");
+            const nombreFuncion = `ejercicio${reto}${ej}`;
+
+            const zona = document.getElementById("zona-ejercicio");
+            
+            if (typeof window[nombreFuncion] === "function") {
+                zona.style.display = "block";
+                window[nombreFuncion]();
+                zona.scrollIntoView({ behavior: "smooth", block: "start" });
+            } else {
+                zona.style.display = "block";
+                zona.innerHTML = `<h2>⚠️ Error</h2><p>La función ${nombreFuncion} no está definida.</p>`;
+            }
+        }
+
+        function limpiarTodo() {
+            const zona = document.getElementById("zona-ejercicio");
+            zona.style.display = "none";
+            zona.innerHTML = "";
+        }
+    </script>
+
+    <script src="script.js"></script>
+
+    <footer style="text-align:center; margin-top:40px; opacity:.6; padding-bottom:30px;">
+        Desarrollado por Javier Gonzales • 2026
+    </footer>
+</body>
+</html>
