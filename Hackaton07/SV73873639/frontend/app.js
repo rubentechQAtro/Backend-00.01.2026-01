@@ -65,7 +65,6 @@ function cardTemplate(def) {
       <h4>${def.title}</h4>
       <div class="meta">${def.method} · ${def.base}</div>
     </div>
-    ${def.corsNote ? `<div class="badge warn">CORS: ${def.corsNote}</div>` : `<div class="badge ok">CORS: normalmente OK</div>`}
     <div class="inputs"></div>
     <div class="actions">
       <button class="btn primary">Ejecutar</button>
