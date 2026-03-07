@@ -1,14 +1,14 @@
 $kind: http-request
 name: '15 - Consultar datos específicos de Marte (NASA)'
 method: GET
-url: 'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key={{nasa_api_key}}'
+url: 'https://api.nasa.gov/'
 description: 'Consulta fotos y datos de Marte tomados por el rover Curiosity de la NASA. Usa DEMO_KEY para pruebas (límite 30 req/hora). Para más requests, obtén API key gratuita en https://api.nasa.gov'
 order: 15000
 queryParams:
   - key: sol
     value: '1000'
-  - key: api_key
-    value: '{{nasa_api_key}}'
+  -  key: Authorization
+     value: 'ShtDCgeZ2ZLId2q7N3TwCVhoas4W6bmq3mJMA09g'
 scripts:
   - type: afterResponse
     language: text/javascript

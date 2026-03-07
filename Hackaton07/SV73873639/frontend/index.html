@@ -23,16 +23,23 @@
     <main class="container">
       <section id="cards" class="cards"></section>
 
-      <section class="result">
-        <div class="result-header">
-          <h3>Resultado</h3>
-          <div class="result-actions">
-            <button id="copy" class="btn">Copiar JSON</button>
-            <button id="clear" class="btn">Limpiar</button>
-          </div>
-        </div>
-        <pre id="output" class="output">Selecciona una tarjeta y presiona "Ejecutar".</pre>
-      </section>
+     <section class="result">
+  <div class="result-header">
+    <h3>Resultado</h3>
+    <div class="result-actions">
+      <button id="copy" class="btn">Copiar JSON</button>
+      <button id="clear" class="btn">Limpiar</button>
+    </div>
+  </div>
+
+  <div class="result-tabs">
+    <button class="tab-btn active" data-tab="json">📄 JSON Raw</button>
+    <button class="tab-btn" data-tab="summary">✨ Interpretación</button>
+  </div>
+  
+  <pre id="output" class="output tab-panel active" data-panel="json">...</pre>
+  <div id="output-summary" class="output tab-panel" data-panel="summary">...</div>
+</section>
     </main>
 
     <footer class="container footer">

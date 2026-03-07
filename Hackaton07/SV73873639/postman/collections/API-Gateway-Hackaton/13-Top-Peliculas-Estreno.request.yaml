@@ -6,7 +6,7 @@ description: 'Consulta el top de películas en estreno usando TMDB. REQUIERE API
 order: 13000
 headers:
   - key: Authorization
-    value: 'Bearer {{tmdb_api_key}}'
+    value: 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzNWI3NTQ5YmExZDQwNWMzMmM3ZmU2ZGVlNzQ2Mzg5MiIsIm5iZiI6MTc3Mjc3MTc1OC42NDIsInN1YiI6IjY5YWE1OWFlNGY1MTU3MjA3Yzk5ODQ3MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.KRnomA8Xt4RU25EGtBx_iyY02Fy0cGD4ETTCKJLEtZk'
   - key: accept
     value: 'application/json'
 queryParams:
