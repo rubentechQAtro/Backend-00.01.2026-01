@@ -8,9 +8,12 @@
 -- ============================================================
 --  SECCIÓN 1: CONSULTAS SOBRE UNA SOLA TABLA
 -- ============================================================
+-- ------------------------------------------------------------
+-- 1. Revisa las tablas Customers (clientes), Employees (empleados) y Orders (pedidos)
+-- ------------------------------------------------------------
 
 -- ------------------------------------------------------------
--- 1. ¿Cuántos clientes hay registrados?
+-- 2. ¿Cuántos clientes hay registrados?
 -- ------------------------------------------------------------
 -- COUNT(*) cuenta todas las filas de la tabla customers,
 -- sin importar si alguna columna tiene valores nulos.
@@ -18,14 +21,22 @@
 SELECT COUNT(*)
 FROM public.customers;
 
+-- ------------------------------------------------------------
+-- 3. ¿Cuántos pedidos?
+-- ------------------------------------------------------------
+-- COUNT(*) cuenta todas las filas de la tabla customers,
+-- sin importar si alguna columna tiene valores nulos.
+-- El resultado es un único número: el total de pedidos.
+SELECT COUNT(*)
+FROM public.orders;
 
 -- ------------------------------------------------------------
--- 2. ¿Qué clientes viven en London y su nombre empieza por A?
+-- 4. ¿Qué clientes viven en London y su nombre empieza por A?
 -- ------------------------------------------------------------
 -- Se filtran dos condiciones simultáneas con AND:
 --   · city = 'London'       → la ciudad debe ser exactamente 'London'
 --   · company_name LIKE 'A%' → el nombre debe comenzar con la letra A
---                              (el % es comodín: acepta cualquier texto después)
+--                              (%: acepta cualquier texto después)
 SELECT *
 FROM public.customers
 WHERE city = 'London'
@@ -33,7 +44,7 @@ WHERE city = 'London'
 
 
 -- ------------------------------------------------------------
--- 3. ¿Cuántos clientes hay que son de Londres?
+-- 5. ¿Cuántos clientes hay que son de Londres?
 -- ------------------------------------------------------------
 -- COUNT(*) combinado con WHERE filtra solo las filas donde
 -- city sea 'London' antes de contar.
@@ -43,7 +54,7 @@ WHERE city = 'London';
 
 
 -- ------------------------------------------------------------
--- 4. ¿Cuántos clientes hay en cada ciudad?
+-- 6. ¿Cuántos clientes hay en cada ciudad?
 -- ------------------------------------------------------------
 -- GROUP BY agrupa todas las filas que comparten el mismo valor
 -- de city en un solo grupo.
@@ -57,7 +68,7 @@ ORDER BY total DESC;
 
 
 -- ------------------------------------------------------------
--- 5. ¿Cuántos empleados nacieron después del 1 de junio de 1965?
+-- 7. ¿Cuántos empleados nacieron después del 1 de junio de 1965?
 -- ------------------------------------------------------------
 -- El operador > compara fechas: solo devuelve empleados cuyo
 -- birth_date sea posterior (mayor) a '1965-06-01'.
@@ -68,7 +79,7 @@ WHERE birth_date > '1965-06-01';
 
 
 -- ------------------------------------------------------------
--- 6. Informe: "El empleado N nació el N"
+-- 8 y 9. Informe: "El empleado N nació el N"
 -- ------------------------------------------------------------
 -- CONCAT une varios textos y valores en una sola cadena.
 -- Se combinan: apellido, país, nombre completo y fecha de nacimiento.
@@ -103,7 +114,7 @@ WHERE employee_id IN (8, 7, 3);
 
 
 -- ------------------------------------------------------------
--- 8. Países con más de 5 clientes, ordenados por nombre de país
+-- 10. Países con más de 5 clientes, ordenados por nombre de país
 -- ------------------------------------------------------------
 -- GROUP BY agrupa por país y COUNT(*) cuenta clientes por grupo.
 -- HAVING filtra los grupos ya formados (no filas individuales):
@@ -116,12 +127,13 @@ HAVING COUNT(*) > 5
 ORDER BY country ASC;
 
 
+
 -- ============================================================
 --  SECCIÓN 2: CONSULTAS CON MÁS DE UNA TABLA (JOINs)
 -- ============================================================
 
 -- ------------------------------------------------------------
--- 9. Nombre del cliente del pedido 10360
+-- 1. Nombre del cliente del pedido 10360
 -- ------------------------------------------------------------
 -- Se unen las tablas orders (o) y customers (c) mediante JOIN.
 -- La condición ON indica la columna que relaciona ambas tablas:
@@ -136,7 +148,7 @@ WHERE o.order_id = 10360;
 
 
 -- ------------------------------------------------------------
--- 10. Nombre de los clientes de los pedidos 10360, 10253 y 10440
+-- 2. Nombre de los clientes de los pedidos 10360, 10253 y 10440
 -- ------------------------------------------------------------
 -- Igual que la consulta anterior pero usando IN para filtrar
 -- tres order_id distintos en una sola condición.
@@ -148,7 +160,7 @@ WHERE o.order_id IN (10360, 10253, 10440);
 
 
 -- ------------------------------------------------------------
--- 11. Ciudades y número de pedidos de clientes en esa ciudad
+-- 3. Ciudades y número de pedidos de clientes en esa ciudad
 -- ------------------------------------------------------------
 -- Se unen orders y customers para acceder a la ciudad del cliente.
 -- GROUP BY c.city agrupa todos los pedidos por ciudad.
@@ -164,7 +176,7 @@ ORDER BY total_pedidos DESC;
 
 
 -- ------------------------------------------------------------
--- 12. Ciudades desde las que hay más de 7 pedidos
+-- 4. Ciudades desde las que hay más de 7 pedidos
 -- ------------------------------------------------------------
 -- Igual que la consulta anterior, pero se agrega HAVING para
 -- quedarse solo con las ciudades cuyo total de pedidos sea > 7.
@@ -179,7 +191,7 @@ ORDER BY total_pedidos DESC;
 
 
 -- ------------------------------------------------------------
--- 13. Los tres países desde los que tengo más pedidos
+-- 5. Los tres países desde los que tengo más pedidos
 -- ------------------------------------------------------------
 -- Misma estructura de JOIN y GROUP BY, pero:
 --   · Se agrupa por city (podría ajustarse a country si se desea país)
@@ -195,7 +207,7 @@ LIMIT 3;
 
 
 -- ------------------------------------------------------------
--- 14. Nombre completo de empleados y número de pedidos que registraron
+-- 6. Nombre completo de empleados y número de pedidos que registraron
 -- ------------------------------------------------------------
 -- Se unen orders y employees por employee_id.
 -- GROUP BY e.employee_id agrupa por cada empleado (usando la clave
@@ -211,7 +223,7 @@ ORDER BY num_pedidos DESC;
 
 
 -- ------------------------------------------------------------
--- 15. Mismo informe, solo empleados cuyo nombre empiece por M
+-- 7. Mismo informe, solo empleados cuyo nombre empiece por M
 -- ------------------------------------------------------------
 -- Se añade WHERE antes del GROUP BY para filtrar individualmente
 -- las filas donde first_name comience con 'M'.
@@ -226,7 +238,7 @@ ORDER BY num_pedidos DESC;
 
 
 -- ------------------------------------------------------------
--- 16. Número de pedido, empleado que lo registró y cliente
+-- 8. Número de pedido, empleado que lo registró y cliente
 -- ------------------------------------------------------------
 -- Se encadenan dos JOINs sobre la tabla orders:
 --   · Primer JOIN con employees → para obtener el nombre del empleado
@@ -244,7 +256,7 @@ ORDER BY o.order_id;
 
 
 -- ------------------------------------------------------------
--- 17. Clientes que han hecho más de un pedido registrado
+-- 9. Clientes que han hecho más de un pedido registrado
 --     por el mismo empleado
 -- ------------------------------------------------------------
 -- Se agrupan los pedidos por cliente (customer_id y company_name).
@@ -265,7 +277,7 @@ ORDER BY num_pedidos;
 
 
 -- ------------------------------------------------------------
--- 18. Clientes con más de un pedido registrado por "Margaret"
+-- 10. Clientes con más de un pedido registrado por "Margaret"
 -- ------------------------------------------------------------
 -- WHERE e.first_name = 'Margaret' filtra ANTES de agrupar,
 -- dejando solo las filas donde el empleado se llame Margaret.
@@ -288,7 +300,7 @@ ORDER BY num_pedidos;
 -- ============================================================
 
 -- ------------------------------------------------------------
--- 19. Producto con el precio mínimo más bajo
+-- 1. Producto con el precio mínimo más bajo
 -- ------------------------------------------------------------
 -- La subconsulta interna  (SELECT MIN(unit_price) FROM products)
 -- calcula el precio mínimo de toda la tabla.
@@ -305,7 +317,7 @@ WHERE unit_price = (
 
 
 -- ------------------------------------------------------------
--- 20. Producto cuyo precio sea al menos 10 veces la cantidad
+-- 2. Producto cuyo precio sea al menos 10 veces la cantidad
 --     mínima registrada en los detalles de pedido
 -- ------------------------------------------------------------
 -- La subconsulta obtiene el valor mínimo de quantity en order_details.
@@ -321,7 +333,7 @@ WHERE unit_price >= 10 * (
 
 
 -- ------------------------------------------------------------
--- 21. Productos cuyo precio sea mayor que el máximo de los
+-- 3. Productos cuyo precio sea mayor que el máximo de los
 --     productos con id 1, 6, 9 y 10
 -- ------------------------------------------------------------
 -- La subconsulta interna filtra solo los productos con esos IDs
@@ -340,7 +352,7 @@ WHERE unit_price > (
 
 
 -- ------------------------------------------------------------
--- 22. Productos cuyo ProductID coincida con algún ShipperID
+-- 4. Productos cuyo ProductID coincida con algún ShipperID
 -- ------------------------------------------------------------
 -- La subconsulta devuelve todos los shipper_id de la tabla shippers.
 -- La consulta externa filtra productos cuyo unit_price (precio)
@@ -357,7 +369,7 @@ WHERE unit_price IN (
 
 
 -- ------------------------------------------------------------
--- 23. Clientes que están en ciudades donde también hay proveedores
+-- 5. Clientes que están en ciudades donde también hay proveedores
 -- ------------------------------------------------------------
 -- La subconsulta interna extrae todas las ciudades distintas
 -- de la tabla suppliers (proveedores).
