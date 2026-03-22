@@ -1,6 +1,16 @@
 module.exports = (sequelize, DataTypes) => {
   const Comment = sequelize.define('Comment', {
-    body: DataTypes.TEXT,
+    body: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: 'El comentario no puede estar vacío' },
+        len: {
+          args: [3, 1000],
+          msg: 'El comentario debe tener al menos 3 caracteres'
+        }
+      }
+    },
     userId: DataTypes.INTEGER,
     lessonId: DataTypes.INTEGER
   });
@@ -14,6 +24,13 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'lessonId'
     });
   };
+
+  // Hook
+  Comment.beforeValidate((comment) => {
+    if (comment.body) {
+      comment.body = comment.body.trim();
+    }
+  });
 
   return Comment;
 };
