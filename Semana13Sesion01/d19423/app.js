@@ -3,13 +3,16 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+var morgan = require('morgan');
 
 const compression = require('compression');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit'  );
 
+
+const logger = require('./middlewares/logger');
+const error = require('./middlewares/errorHandler')
 
 
 var indexRouter = require('./routes/index');
@@ -23,7 +26,9 @@ console.log(path.join(__dirname, 'views'))
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(logger('dev'));
+
+
+app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -41,6 +46,8 @@ const limiter = rateLimit({
 });
 
 app.use(limiter);
+//app.use(logger);
+app.use(error);
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
