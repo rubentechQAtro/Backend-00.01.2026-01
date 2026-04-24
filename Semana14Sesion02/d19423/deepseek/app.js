@@ -2,10 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const http = require('http');
 const socketIO = require('socket.io');
-const OpenAI = require('openai');
-const openai = new OpenAI({
-    apiKey: process.env.openAIKey
-})
+const axios = require('axios');
+
 
 const app = express();
 const server  =  http.createServer(app);
@@ -24,7 +22,7 @@ io.on("connection",(socket)=>{
     historialConversacion.push(
         {
             role: "system",
-            content: `Eres "Chatty", un chatbot amigable y experto en atención a estudiantes de fotografía.
+            content: `Eres "Deepy", un chatbot amigable y experto en atención a estudiantes de fotografía.
 
 Tu misión principal es:
 1. Brindar información clara, precisa y práctica sobre configuraciones de cámara (ISO, apertura, velocidad de obturación, balance de blancos, etc.).
@@ -62,14 +60,22 @@ Ayudar al estudiante a aprender fotografía mientras lo guías de forma natural 
 
         try {
             historialConversacion.push({role:'user', content:message});
-            const respuestaChat = await openai.chat.completions.create(
+            const respuestaChat = await axios.post(
+                'https://api.deepseek.com/v1/chat/completions',
                 {
-                    model: process.env.openAIModel,
-                    messages: historialConversacion
+                    model: process.env.deepseekMODEL,
+                    messages: historialConversacion,
+                    maxTokens: process.env.maxTokens
+                },
+                {
+                    headers:{
+                        'Content-Type':'application/json',
+                        'Authorization': `Bearer ${process.env.deepseekKEY}`
+                    }
                 }
             )
             console.log(respuestaChat);
-            const respuesta = respuestaChat.choices[0].message?.content;
+            const respuesta = respuestaChat.data.choices[0].message?.content;
             historialConversacion.push(
                 {
                     role: 'assistant',
